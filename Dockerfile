@@ -1,23 +1,11 @@
-FROM node:alpine
+FROM node:12-alpine
 
-# update packages
-RUN apk update
+WORKDIR /usr/src/app
 
-# create root application folder
-WORKDIR /app
+COPY package.json ./
 
-# copy configs to /app folder
-COPY package*.json ./
-COPY tsconfig.json ./
-# copy source code to /app/src folder
-COPY src /app/src
+RUN yarn
 
-# check files list
-RUN ls -a
+COPY . .
 
-RUN npm install
-RUN npm run build
-
-EXPOSE 7777
-
-CMD [ "node", "./dist/server.js" ]
+EXPOSE 3333
